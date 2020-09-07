@@ -1,0 +1,60 @@
+USE [InterviewerTracker]
+GO
+
+/****** Object:  Table [dbo].[ApplicationUsers]    Script Date: 07-09-2020 08:22:40 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[ApplicationUsers](
+	[UserId] [int] IDENTITY(1,1) NOT NULL,
+	[FirstName] [nvarchar](50) NOT NULL,
+	[LastName] [nvarchar](50) NOT NULL,
+	[Email] [nvarchar](max) NOT NULL,
+	[ReportingTo] [nvarchar](max) NOT NULL,
+	[UserTypes] [int] NOT NULL,
+	[Stat] [int] NOT NULL,
+	[MobileNumber] [bigint] NOT NULL,
+ CONSTRAINT [PK_ApplicationUsers] PRIMARY KEY CLUSTERED 
+(
+	[UserId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+
+GO
+
+/****** Object:  Table [dbo].[Interviews]    Script Date: 07-09-2020 08:22:54 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[Interviews](
+	[InterviewId] [int] IDENTITY(1,1) NOT NULL,
+	[InterviewName] [nvarchar](50) NOT NULL,
+	[Interviewer] [nvarchar](max) NOT NULL,
+	[InterviewUser] [nvarchar](max) NOT NULL,
+	[UserSkills] [nvarchar](max) NOT NULL,
+	[InterviewDate] [datetime2](7) NOT NULL,
+	[InterviewTime] [datetime2](7) NOT NULL,
+	[InterViewsStatus] [int] NOT NULL,
+	[TInterViews] [int] NOT NULL,
+	[Remark] [nvarchar](max) NULL,
+	[ApplicationUsersUserId] [int] NULL,
+ CONSTRAINT [PK_Interviews] PRIMARY KEY CLUSTERED 
+(
+	[InterviewId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+
+GO
+
+ALTER TABLE [dbo].[Interviews]  WITH CHECK ADD  CONSTRAINT [FK_Interviews_ApplicationUsers_ApplicationUsersUserId] FOREIGN KEY([ApplicationUsersUserId])
+REFERENCES [dbo].[ApplicationUsers] ([UserId])
+GO
+
+ALTER TABLE [dbo].[Interviews] CHECK CONSTRAINT [FK_Interviews_ApplicationUsers_ApplicationUsersUserId]
+GO

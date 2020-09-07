@@ -1,0 +1,173 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="InterviewerTrackerModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="ApplicationUsers">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Email" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="ReportingTo" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="UserTypes" Type="int" Nullable="false" />
+          <Property Name="Stat" Type="int" Nullable="false" />
+          <Property Name="MobileNumber" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Interviews">
+          <Key>
+            <PropertyRef Name="InterviewId" />
+          </Key>
+          <Property Name="InterviewId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="InterviewName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Interviewer" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="InterviewUser" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="UserSkills" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="InterviewDate" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="InterviewTime" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="InterViewsStatus" Type="int" Nullable="false" />
+          <Property Name="TInterViews" Type="int" Nullable="false" />
+          <Property Name="Remark" Type="nvarchar(max)" />
+          <Property Name="ApplicationUsersUserId" Type="int" />
+        </EntityType>
+        <Association Name="FK_Interviews_ApplicationUsers_ApplicationUsersUserId">
+          <End Role="ApplicationUsers" Type="Self.ApplicationUsers" Multiplicity="0..1" />
+          <End Role="Interviews" Type="Self.Interviews" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ApplicationUsers">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Interviews">
+              <PropertyRef Name="ApplicationUsersUserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="InterviewerTrackerModelStoreContainer">
+          <EntitySet Name="ApplicationUsers" EntityType="Self.ApplicationUsers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Interviews" EntityType="Self.Interviews" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Interviews_ApplicationUsers_ApplicationUsersUserId" Association="Self.FK_Interviews_ApplicationUsers_ApplicationUsersUserId">
+            <End Role="ApplicationUsers" EntitySet="ApplicationUsers" />
+            <End Role="Interviews" EntitySet="Interviews" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="InterviewerTrackerModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="ApplicationUser">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ReportingTo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="UserTypes" Type="Int32" Nullable="false" />
+          <Property Name="Stat" Type="Int32" Nullable="false" />
+          <Property Name="MobileNumber" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="Interviews" Relationship="Self.FK_Interviews_ApplicationUsers_ApplicationUsersUserId" FromRole="ApplicationUsers" ToRole="Interviews" />
+        </EntityType>
+        <EntityType Name="Interview">
+          <Key>
+            <PropertyRef Name="InterviewId" />
+          </Key>
+          <Property Name="InterviewId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="InterviewName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Interviewer" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="InterviewUser" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="UserSkills" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="InterviewDate" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="InterviewTime" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="InterViewsStatus" Type="Int32" Nullable="false" />
+          <Property Name="TInterViews" Type="Int32" Nullable="false" />
+          <Property Name="Remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ApplicationUsersUserId" Type="Int32" />
+          <NavigationProperty Name="ApplicationUser" Relationship="Self.FK_Interviews_ApplicationUsers_ApplicationUsersUserId" FromRole="Interviews" ToRole="ApplicationUsers" />
+        </EntityType>
+        <Association Name="FK_Interviews_ApplicationUsers_ApplicationUsersUserId">
+          <End Role="ApplicationUsers" Type="Self.ApplicationUser" Multiplicity="0..1" />
+          <End Role="Interviews" Type="Self.Interview" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ApplicationUsers">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Interviews">
+              <PropertyRef Name="ApplicationUsersUserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="InterviewerTrackerDbContext" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="ApplicationUsers" EntityType="Self.ApplicationUser" />
+          <EntitySet Name="Interviews" EntityType="Self.Interview" />
+          <AssociationSet Name="FK_Interviews_ApplicationUsers_ApplicationUsersUserId" Association="Self.FK_Interviews_ApplicationUsers_ApplicationUsersUserId">
+            <End Role="ApplicationUsers" EntitySet="ApplicationUsers" />
+            <End Role="Interviews" EntitySet="Interviews" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="InterviewerTrackerModelStoreContainer" CdmEntityContainer="InterviewerTrackerDbContext">
+          <EntitySetMapping Name="ApplicationUsers">
+            <EntityTypeMapping TypeName="InterviewerTrackerModel.ApplicationUser">
+              <MappingFragment StoreEntitySet="ApplicationUsers">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="ReportingTo" ColumnName="ReportingTo" />
+                <ScalarProperty Name="UserTypes" ColumnName="UserTypes" />
+                <ScalarProperty Name="Stat" ColumnName="Stat" />
+                <ScalarProperty Name="MobileNumber" ColumnName="MobileNumber" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Interviews">
+            <EntityTypeMapping TypeName="InterviewerTrackerModel.Interview">
+              <MappingFragment StoreEntitySet="Interviews">
+                <ScalarProperty Name="InterviewId" ColumnName="InterviewId" />
+                <ScalarProperty Name="InterviewName" ColumnName="InterviewName" />
+                <ScalarProperty Name="Interviewer" ColumnName="Interviewer" />
+                <ScalarProperty Name="InterviewUser" ColumnName="InterviewUser" />
+                <ScalarProperty Name="UserSkills" ColumnName="UserSkills" />
+                <ScalarProperty Name="InterviewDate" ColumnName="InterviewDate" />
+                <ScalarProperty Name="InterviewTime" ColumnName="InterviewTime" />
+                <ScalarProperty Name="InterViewsStatus" ColumnName="InterViewsStatus" />
+                <ScalarProperty Name="TInterViews" ColumnName="TInterViews" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="ApplicationUsersUserId" ColumnName="ApplicationUsersUserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
